@@ -132,7 +132,7 @@
               </tr>
             </thead>
             <tbody id="dsHocSinhVangBody">
-              <tr><td colspan="3" style="text-align: center; color: #64748b;">Chưa có dữ liệu danh sách vắng riêng lẻ.</td></tr>
+              <tr><td colspan="3" style="text-align: center; color: #64748b;">Không có học sinh nào vắng mặt trong danh sách riêng lẻ.</td></tr>
             </tbody>
           </table>
         </div>
@@ -263,7 +263,7 @@
       });
     }
 
-    // Khi thay đổi trạng thái từng học sinh ở Mục 3, cập nhật Mục 4 và tự động lưu
+    // Khi thay đổi trạng thái từng học sinh ở Mục 3, cập nhật Mục 4 và tự động lưu danh sách tên vắng
     function xuLyThayDoiTungHS() {
       let ngayVal = document.getElementById('txtNgay').innerText;
       let buoiVal = document.getElementById('txtBuoi').innerText;
@@ -273,6 +273,7 @@
       dsVangBody.innerHTML = "";
       let count = 0;
       let dsVangArr = [];
+      
       selects.forEach(sel => {
         if(sel.value === "Vắng") {
           count++;
@@ -282,10 +283,14 @@
           dsVangBody.innerHTML += `<tr><td>${count}</td><td>${ma}</td><td><b>${hoten}</b></td></tr>`;
         }
       });
+      
       if(count === 0) {
         dsVangBody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: #64748b;">Không có học sinh nào vắng mặt trong danh sách riêng lẻ.</td></tr>`;
       }
       
+      document.getElementById('inputSoVang').value = count;
+      tinhToanThongKeNhanh();
+
       let dsVangStr = dsVangArr.length > 0 ? dsVangArr.join(", ") : "Không có vắng";
       
       let payload = {
